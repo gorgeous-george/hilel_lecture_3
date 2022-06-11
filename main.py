@@ -31,11 +31,31 @@ if __name__ == '__main__':
     assert parse('https://www.example.com/basin/art.php') == {}
 
 def parse_cookie(query: str) -> dict:
-    return {}
+    elements = {}
+    parsed = query.split(';')
+    parsed.pop()
+
+    for item in parsed:
+        index1 = item.find('=')
+        key = item[:index1]
+        name = item[index1 + 1:]
+        elements[key] = name
+
+    return elements
 
 
 if __name__ == '__main__':
+    assert parse_cookie('name=Dima=User;age=28;') == {'name': 'Dima=User', 'age': '28'}
     assert parse_cookie('name=Dima;') == {'name': 'Dima'}
     assert parse_cookie('') == {}
     assert parse_cookie('name=Dima;age=28;') == {'name': 'Dima', 'age': '28'}
-    assert parse_cookie('name=Dima=User;age=28;') == {'name': 'Dima=User', 'age': '28'}
+    assert parse_cookie('country=usa;city=detroit;') == {'country': 'usa', 'city': 'detroit'}
+    assert parse_cookie('name=1;') == {'name': '1'}
+    assert parse_cookie('path=hell;') == {'path': 'hell'}
+    assert parse_cookie('fatal error') == {}
+    assert parse_cookie('v=kusM4BtJ07g;t=1110s;') == {'v': 'kusM4BtJ07g', 't':'1110s'}
+    assert parse_cookie('channel=fs;client=ubuntu;q=detroit;') == {'channel': 'fs', 'client': 'ubuntu', 'q': 'detroit'}
+    assert parse_cookie('cock=cock;') == {'cock': 'cock'}
+    assert parse_cookie('branch=bead;') == {'branch': 'bead'}
+    assert parse_cookie('bee=argument;') == {'bee': 'argument'}
+    assert parse_cookie('false') == {}
