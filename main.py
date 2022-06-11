@@ -36,9 +36,7 @@ def parse_cookie(query: str) -> dict:
     parsed.pop()
 
     for item in parsed:
-        index1 = item.find('=')
-        key = item[:index1]
-        name = item[index1 + 1:]
+        key, name = item.split('=', 1)
         elements[key] = name
 
     return elements
