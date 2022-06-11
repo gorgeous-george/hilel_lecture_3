@@ -1,5 +1,16 @@
+from urllib.parse import urlparse
+
 def parse(query: str) -> dict:
-    return {}
+    elements = {}
+    parts = urlparse(query)
+    queries = parts.query.strip('&').split('&')
+
+    if queries[0] != '':
+        for item in queries:
+            key, value = item.split('=')
+            elements[key] = value
+
+    return elements
 
 
 if __name__ == '__main__':
